@@ -17,7 +17,7 @@ In the SQL shell
     CREATE USER 'yasharth'@'localhost' IDENTIFIED BY 'yasharth@sql';
     GRANT ALL PRIVILEGES ON *.* TO 'yasharth'@'localhost' WITH GRANT OPTION;
     CREATE DATABASE EMPS;
-    USE EPMS;
+    USE EMPS;
 
     CREATE TABLE employee (
     emp_id INT AUTO_INCREMENT,
