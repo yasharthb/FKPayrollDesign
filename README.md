@@ -2,8 +2,8 @@
 Maintains code for project on Employee Payroll System Design
 
 ## Prerequisites
- -Java JDK 11.0.7
- -MySQL
+ * Java JDK 11.0.7
+ * MySQL
 
 ## Setup MySQL Server on the local server
 ```bash
