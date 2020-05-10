@@ -68,22 +68,30 @@ In the SQL shell
     FOREIGN KEY (emp_id) REFERENCES employee(emp_id)
 );
 
-   CREATE TABLE daily_variables (
-   	union_rate FLOAT NOT NULL,
-   	other_fees FLOAT NOT NULL
+   CREATE TABLE union_employee (
+   	emp_id INT NOT NULL,
+   	union_rate FLOAT NOT NULL DEFAULT 0.0,
+   	other_fees FLOAT NOT NULL DEFAULT 0.0,
+   	PRIMARY KEY (emp_id),
+    FOREIGN KEY (emp_id) REFERENCES employee(emp_id)
 );
-   CREATE TABLE payment_log (
+   CREATE TABLE payroll (
    	payment_id INT AUTO_INCREMENT,
     emp_id INT NOT NULL,
     date_of_pay DATE NOT NULL,
-    amount FLOAT NOT NULL,
+    amount_payable FLOAT NOT NULL,
+    deduction FLOAT NOT NULL DEFAULT 0.0,
+    amount_paid FLOAT NOT NULL,
+    payment_mode VARCHAR(10) NOT NULL,
     PRIMARY KEY (payment_id),
     FOREIGN KEY (emp_id) REFERENCES employee(emp_id)
 );
 ```
 
 ## Get started
+	Clone the Repository.
 ```bash
+cd FKPayrollDesign/SourceCode
 javac Employee.java DBConnect.java Driver.java -d ClassFiles
 java -cp ClassFiles/mysql-connector-java-8.0.11.jar:ClassFiles/ EPMS.Driver
 ```
