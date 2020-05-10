@@ -434,11 +434,13 @@ public void displayPayRoll() {
                      System.out.print("\n Unable to Update..\n" + e);
             }   
   }
-  public void UnionDeductions(){
+
+  public void unionDeductions(){
          try {
                      ps = cn.prepareStatement("select * from employee where union_member=1");
                      rs = ps.executeQuery();
                     while(rs.next()) {
+                        if(rs.getString(9).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){continue;}
                          ps = cn.prepareStatement("select * from union_employee where emp_id=?");
                          ps.setInt(1,Integer.parseInt(rs.getString(1)));
                          rs1 = ps.executeQuery();
@@ -448,7 +450,7 @@ public void displayPayRoll() {
                          double deduction = weekly_dues+membership_fees;
                          
                          ps = cn.prepareStatement("update employee set deduction=? where emp_id=?");
-                         ps.setDouble(1,deduction);
+                         ps.setDouble(1,deduction+Double.parseDouble(rs.getString(11)));
                          ps.setInt(2,Integer.parseInt(rs.getString(1)));
                          ps.executeUpdate();
 
@@ -461,13 +463,13 @@ public void displayPayRoll() {
   }
 
   public void payDailyEmployees(){
-       UnionDeductions();
        try {         
 
                      ps = cn.prepareStatement("select * from employee where type=?");
                      ps.setString(1,"daily");
                      rs = ps.executeQuery();
                     while(rs.next()) {
+                         if(rs.getString(9).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))){continue;}
                          ps = cn.prepareStatement("insert into payroll values(?,?,?,?,?,?,?)");
                          ps.setInt(1, 0);
                          ps.setInt(2, Integer.parseInt(rs.getString(1)));
@@ -500,6 +502,8 @@ public void displayPayRoll() {
                      ps.setString(1,"fixed");
                      rs = ps.executeQuery();
                     while(rs.next()) {
+                         if(rs.getString(9).equals(new SimpleDateFormat("yyyy-MM-dd").format(new Date())))
+                          {continue;}
                          ps = cn.prepareStatement("insert into payroll values(?,?,?,?,?,?,?)");
                          ps.setInt(1, 0);
                          ps.setInt(2, Integer.parseInt(rs.getString(1)));

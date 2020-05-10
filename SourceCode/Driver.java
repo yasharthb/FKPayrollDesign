@@ -1,7 +1,8 @@
 package EPMS;
-//import java.sql.*;
+
 import java.io.*;
 import java.util.Date;
+import java.util.Calendar;
 import java.text.SimpleDateFormat; 
 
 class Driver {
@@ -20,7 +21,8 @@ static int display() throws IOException {
           System.out.println("\t 9. Display PayRoll");
           System.out.println("\t 10. Exit. ");
           System.out.print(" Choose an option : ");
-          int ch = Integer.parseInt(getInput());
+          String tmp = getInput();
+          int ch = !tmp.equals("")?Integer.parseInt(tmp):-1;
           return ch;
         }
 
@@ -34,10 +36,44 @@ static String getInput()  {
                    return str;
           }
 
+
+  static int isPayDay(){
+
+          Date date=new Date();
+          Calendar cal = Calendar.getInstance();
+          int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+          if((date.getDay() == 5) && !(dayOfMonth == 1))
+            return 1;
+          else if(!(date.getDay() == 5) && (dayOfMonth == 1))
+            return 2;
+          else if((date.getDay() == 5) && (dayOfMonth == 1))
+            return 3;
+          return 0;
+  }
+
    public static void main(String args[]) throws IOException {
-          System.out.println(System.getProperty("java.class.path"));
           DBConnect db = new DBConnect();
           Employee emp;
+          int check =isPayDay();
+          switch(check){
+            case 0:
+                    break;
+            case 1: 
+                    db.unionDeductions();
+                    db.payDailyEmployees();
+                    break;
+            case 2:
+                    db.payFixedEmployees();
+                    break;
+
+            case 3: 
+                    db.unionDeductions();
+                    db.payDailyEmployees();
+                    db.payFixedEmployees();
+                    break;
+
+          }
+
           int emp_id=0,union_member=0,hrs_clocked=0;
           String emp_name="",type="",email="",dob="",dow="",payment_mode="",pay_till="",paid_date="",tmp="";
           double amount_payable=0.0,salary=0.0,hrly_rate=0.0,commission_rate=0.0,amount_sale=0.0,weekly_dues=0.0,membership_fee=0.0;
@@ -198,7 +234,7 @@ static String getInput()  {
                           db.updateUnion(emp,weekly_dues,membership_fee);
                           break; 
                    case 8:
-
+                          db.unionDeductions();
                           db.payDailyEmployees();
                           db.payFixedEmployees();
                           break;
@@ -209,6 +245,8 @@ static String getInput()  {
 
                              db.close();
                              System.exit(0);
+                    default:
+                              System.out.println("Enter Valid Choice");
                    } 
           }
         }
