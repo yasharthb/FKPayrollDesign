@@ -12,10 +12,16 @@ Maintains code for project on Employee Payroll System Design
   sudo mysql_secure_installation
   sudo mysql
 ```
-In the SQL shell
+In the SQL shell (Ofc you can change 'yasharth' to any name of your liking.Just change it in the source code user and password as well)
 ```sql
     CREATE USER 'yasharth'@'localhost' IDENTIFIED BY 'yasharth@sql';
     GRANT ALL PRIVILEGES ON *.* TO 'yasharth'@'localhost' WITH GRANT OPTION;
+```
+Exit SQL shell and relogin using 'yasharth' as user.
+```bash
+    mysql -u yasharth -p
+```
+```sql
     CREATE DATABASE EMPS;
     USE EMPS;
 
